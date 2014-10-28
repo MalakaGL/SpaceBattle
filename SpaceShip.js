@@ -3,5 +3,6 @@
  */
 
 function SpaceShip(){
-    this.prototype = new SpaceObjects();
 }
+
+SpaceShip.prototype = new SpaceObjects();
