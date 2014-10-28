@@ -29,7 +29,7 @@ addEventListener("keyup", function (e) {
 
 var init = function()
 {
-    ship = new SpaceShip(new Point(25,25), new Point(1,1));
+    ship = new SpaceShip();
     // get the canvas object
     var canvas = document.getElementById("canvas");
     context = canvas.getContext("2d");
@@ -46,7 +46,7 @@ var init = function()
 
 var draw = function()
 {
-    //document.getElementById("abc").innerText += "<p>Draw called.</p>"+ ship.direction;
+    //document.getElementById("abc").innerText += "<p>Draw called.</p>"+ ship.toString();
     update();
     ship.draw(context);
 };
