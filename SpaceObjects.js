@@ -2,15 +2,18 @@
  * Created by lahiru on 10/28/2014.
  */
 
-function SpaceObjects(pos, spd) {
-    this.position = pos;
+function SpaceObjects(pos,spd) {
+    pos = (typeof pos !== "Point") ? new Point(250,250) : pos;
+
+    this.position;
     this.speed = spd;
-    this.direction = 0;
+    this.direction = 1;
     this.isAlive = true;
 
     this.move = function()
     {
-        this.position.add(spd);
+        this.position = (typeof pos !== "Point") ? new Point(250,250) : this.position;
+        this.position.addPoint(this.speed);
     }
 
     this.destroy = function()
@@ -20,12 +23,12 @@ function SpaceObjects(pos, spd) {
 
     this.draw = function(context)
     {
-        document.getElementById("abc").innerText = "Draw called.";
         context.fillStyle = "#ff0000";
         context.lineWidth = 3;
 
-        var x = 50;
-        var y = 50;
+        //document.getElementById("abc").innerText += "Draw called."+this.position.x;
+        var x = this.position.x;
+        var y = this.position.y;
         var radius = 25;
         var anticlockwise = false;
 

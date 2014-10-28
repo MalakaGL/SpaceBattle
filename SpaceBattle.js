@@ -7,7 +7,7 @@ var WIDTH = 512, HEIGHT = 480;      // dimensions of the canvas object
 var canvasMinX = 0, canvasMaxX;     // horizontal range of canvas/arena
 var intervalId;                     // interval at which the canvas refresh
 var keysDown = {};
-var ship = new SpaceShip(0,0);
+var ship;
 
 /*
  method to identify keys pressed.
@@ -29,6 +29,7 @@ addEventListener("keyup", function (e) {
 
 var init = function()
 {
+    ship = new SpaceShip(new Point(25,25), new Point(1,1));
     // get the canvas object
     var canvas = document.getElementById("canvas");
     context = canvas.getContext("2d");
@@ -38,35 +39,19 @@ var init = function()
     canvasMinX = canvas.offsetLeft;
     //canvasMaxX = canvasMinX + WIDTH;
     // call draw function once per 10ms
+    document.getElementById("abc").innerHTML += "<p>Init called.</p>"+ ship.direction;
     intervalId = setInterval(draw, 10);
 
 };
 
-var start = function()
-{
-    //update();
-    draw();
-};
-
 var draw = function()
 {
+    //document.getElementById("abc").innerText += "<p>Draw called.</p>"+ ship.direction;
+    update();
     ship.draw(context);
 };
 
-var drawShip = function()
+var update = function()
 {
-    document.getElementById("abc").innerText = "Draw called.";
-    context.fillStyle = "#ff0000";
-    context.lineWidth = 3;
-
-    var x = 50;
-    var y = 50;
-    var radius = 25;
-    var anticlockwise = false;
-
-    context.beginPath();
-    context.arc(x, y, radius, 0, Math.PI * 2, anticlockwise);
-    context.fill();
-    context.closePath();
-
+    ship.move();
 };

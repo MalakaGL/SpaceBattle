@@ -12,4 +12,8 @@ function Point(x, y){
         this.x += otherPoint.x;
         this.y += otherPoint.y;
     }
+
+    this.getX = function(){
+        return this.x;
+    }
 }
