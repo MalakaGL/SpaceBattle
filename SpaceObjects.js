@@ -21,6 +21,19 @@ function SpaceObjects() {
     };
 
     this.draw = function(){
+        context.clearRect(0,0,512,480);
+        context.fillStyle = "#ff0000";
 
+        document.getElementById("abc").innerText += "Bullet Draw called."+this.position.x;
+        document.getElementById("abc").innerText += "Bullet move called."+this.position.y;
+        var x = this.position.x;
+        var y = this.position.y;
+        var radius = 5;
+        var anticlockwise = false;
+
+        context.beginPath();
+        context.arc(x, y, radius, 0, Math.PI * 2, anticlockwise);
+        context.fill();
+        context.closePath();
     };
 }

@@ -3,12 +3,16 @@
  */
 
 function SpaceShip(){
-    this.draw = function(context)
+    this.bulletList = new Array();
+    this.bulletCount = 0;
+
+    this.draw = function()
     {
         context.clearRect(0,0,512,480);
         context.fillStyle = "#ff0000";
         context.strokeStyle = "#ff0000"
         context.lineWidth = 5;
+        context.lineCap = "round";
 
         //document.getElementById("abc").innerText += "Draw called."+this.position.x;
         var x = this.position.x;
@@ -27,19 +31,24 @@ function SpaceShip(){
 
     this.move = function()
     {
-        if(38 in keysDown)
-        {
-            //document.getElementById("abc").innerText += "Draw called."+this.position.x;
             this.position.movePoint(this.speed,this.direction);
-        }
-        if ( 39 in keysDown )
-        {
-            this.direction += (Math.PI / 360 * 5);
-        }
-        if ( 37 in keysDown )
-        {
-            this.direction -= (Math.PI / 360 * 5);
-        }
+    }
+
+    this.rotateLeft = function()
+    {
+        this.direction += (Math.PI / 360 * 5);
+    }
+
+    this.rotateRight = function()
+    {
+        this.direction -= (Math.PI / 360 * 5);
+    };
+
+    this.shoot = function()
+    {
+        this.bulletList[this.bulletCount++] = new Bullet(this.position.x+Math.sin(this.direction)*25,
+            this.position.y+Math.cos(this.direction)*25);
+        document.getElementById("abc").innerText += "Shoot called." + this.bulletCount;
     };
 }
 

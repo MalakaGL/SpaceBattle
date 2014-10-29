@@ -6,7 +6,6 @@ var context;                            // content of the canvas
 var WIDTH = 512, HEIGHT = 480;      // dimensions of the canvas object
 var canvasMinX = 0, canvasMaxX;     // horizontal range of canvas/arena
 var intervalId;                     // interval at which the canvas refresh
-var keysDown = {};
 var ship;
 
 /*
@@ -15,16 +14,22 @@ var ship;
  output is adding the key code of the pressed key to the keysDown array
  */
 addEventListener("keydown", function (e) {
-    keysDown[e.keyCode] = true;
-}, false);
 
-/*
- method to identify keys released
- arg is an event "keysup"
- output is deleting released key from keysDown array
- */
-addEventListener("keyup", function (e) {
-    delete keysDown[e.keyCode];
+    switch(e.keyCode)
+    {
+        case 37:
+            ship.rotateLeft();
+            break;
+        case 39:
+            ship.rotateRight();
+            break;
+        case 38:
+            ship.move();
+            break;
+        case 32:
+            ship.shoot();
+            break;
+    }
 }, false);
 
 var init = function()
@@ -48,10 +53,14 @@ var draw = function()
 {
     //document.getElementById("abc").innerText += "<p>Draw called.</p>"+ ship.toString();
     update();
-    ship.draw(context);
+    ship.draw();
 };
 
 var update = function()
 {
-    ship.move();
+    for(var i = 0; i < ship.bulletCount;i++)
+    {
+        ship.bulletList[i].move();
+        ship.bulletList[i].draw();
+    }
 };
