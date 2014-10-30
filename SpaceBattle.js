@@ -1,66 +1,113 @@
 /**
  * Created by lahiru on 10/28/2014.
  */
-
-var context;                            // content of the canvas
-var WIDTH = 512, HEIGHT = 480;      // dimensions of the canvas object
-var canvasMinX = 0, canvasMaxX;     // horizontal range of canvas/arena
+var context;                        // content of the canvas
+var WIDTH = 1024;
+var HEIGHT = 640;      // dimensions of the canvas object
 var intervalId;                     // interval at which the canvas refresh
 var ship;
+var comets = new Array();
+var cometCount;
+var score;
 
 /*
  method to identify keys pressed.
  arg is an event "keysdown"
- output is adding the key code of the pressed key to the keysDown array
+ output is invoking a method bound to the key pressed
  */
 addEventListener("keydown", function (e) {
-
-    switch(e.keyCode)
-    {
-        case 37:
+    switch (e.keyCode) {
+        case 37:                        // left arrow
             ship.rotateLeft();
             break;
-        case 39:
+        case 39:                        // right arrow
             ship.rotateRight();
             break;
-        case 38:
-            ship.move();
+        case 38:                        // up arrow
+            ship.speedUp();
             break;
-        case 32:
+        case 40:                        // down arrow
+            ship.speedDown();
+            break;
+        case 32:                        // space bar
             ship.shoot();
             break;
     }
 }, false);
 
-var init = function()
-{
+var init = function () {
     ship = new SpaceShip();
+    cometCount = 15;
+    comets = Comet.generateComets(cometCount);
+    score = 0;
     // get the canvas object
     var canvas = document.getElementById("canvas");
     context = canvas.getContext("2d");
     // set canvas width and height to get fine resolution
-    canvas.width = 512;
-    canvas.height = 480;
-    canvasMinX = canvas.offsetLeft;
-    //canvasMaxX = canvasMinX + WIDTH;
+    canvas.width = WIDTH;
+    canvas.height = HEIGHT;
     // call draw function once per 10ms
-    document.getElementById("abc").innerHTML += "<p>Init called.</p>"+ ship.direction;
     intervalId = setInterval(draw, 10);
-
+    //var temp = setInterval(clearBulletList, 500);
 };
 
-var draw = function()
-{
-    //document.getElementById("abc").innerText += "<p>Draw called.</p>"+ ship.toString();
+var draw = function () {
+    if (cometCount === 0 || !ship.isAlive) {
+        score = 0;
+        clearInterval(intervalId);
+        context.clearRect(0, 0, WIDTH, HEIGHT);
+        init();
+    }
     update();
+    context.clearRect(0, 0, WIDTH, HEIGHT);
     ship.draw();
-};
 
-var update = function()
-{
-    for(var i = 0; i < ship.bulletCount;i++)
-    {
-        ship.bulletList[i].move();
+    for (var i = 0; i < ship.bulletCount; i++) {
         ship.bulletList[i].draw();
     }
+
+    for (var i = 0; i < cometCount; i++) {
+        comets[i].draw();
+    }
+
+    context.fillStyle = "rgb(250, 250, 250)";
+    context.font = "24px Helvetica";
+    context.textAlign = "left";
+    context.textBaseline = "top";
+    context.fillText("Score: " + score, 10, 0);
+};
+
+var update = function () {
+    ship.moveObject();
+    // update bullets
+    for (var i = 0; i < ship.bulletCount; i++) {
+        ship.bulletList[i].moveObject();
+    }
+
+    // update comets
+    for (var i = 0; i < cometCount; i++) {
+        if (comets[i].isAlive) {
+            if (comets[i].detectCollisions(ship.bulletList, ship.bulletCount)) {
+                score += 10;
+            }
+            comets[i].moveObject();
+        }
+    }
+
+    for (var i = 0; i < ship.bulletCount; i++) {
+        if (!ship.bulletList[i].isAlive) {
+            ship.bulletList.splice(i, 1);
+            ship.bulletCount--;
+        }
+    }
+
+    for (var i = 0; i < cometCount; i++) {
+        if (!comets[i].isAlive) {
+            comets.splice(i, 1);
+            cometCount--;
+        }
+    }
+
+    // check ship's collisions
+    ship.detectCollisions(comets, cometCount);
 };
