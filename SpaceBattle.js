@@ -74,7 +74,9 @@ var draw = function () {
     context.font = "24px Helvetica";
     context.textAlign = "left";
     context.textBaseline = "top";
-    context.fillText("Score: " + score, 10, 0);
+    context.fillText("Score : " + score, 10, 0);
+    context.fillText("Speed : " + this.ship.speed, 10, 24);
+    context.fillText("Kills : " + (15 - cometCount), 10, 48);
 };
 
 var update = function () {
