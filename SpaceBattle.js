@@ -4,11 +4,12 @@
 var context;                        // content of the canvas
 var WIDTH = 1024;
 var HEIGHT = 640;      // dimensions of the canvas object
-var intervalId;                     // interval at which the canvas refresh
+var intervalId = null;                     // interval at which the canvas refresh
 var ship;
 var comets = new Array();
 var cometCount;
 var score;
+var started, tries = 0;
 
 /*
  method to identify keys pressed.
@@ -36,6 +37,7 @@ addEventListener("keydown", function (e) {
 }, false);
 
 var init = function () {
+    started = false;
     ship = new SpaceShip();
     cometCount = 15;
     comets = Comet.generateComets(cometCount);
@@ -46,19 +48,41 @@ var init = function () {
     // set canvas width and height to get fine resolution
     canvas.width = WIDTH;
     canvas.height = HEIGHT;
+    draw();
+    $(document).ready(function() {
+        $("#button").click(function(){
+            $(this).fadeOut(1),
+                start()
+        });
+    });
+};
+
+var start = function(){
     // call draw function once per 10ms
     intervalId = setInterval(draw, 10);
-    //var temp = setInterval(clearBulletList, 500);
-};
+    started = true;
+    tries++;
+}
 
 var draw = function () {
     if (cometCount === 0 || !ship.isAlive) {
         score = 0;
         clearInterval(intervalId);
+        intervalId = null;
         context.clearRect(0, 0, WIDTH, HEIGHT);
         init();
+        started = false;
+        if(tries === 3) {
+            window.location.reload();
+        }
+        $(document).ready(function() {
+            $("#button").fadeIn(1000);
+            $('strong').remove();
+            $('#button').append("<strong>Battle Again</strong>");
+        });
     }
-    update();
+    if(started)
+        update();
     context.clearRect(0, 0, WIDTH, HEIGHT);
     ship.draw();
 

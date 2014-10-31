@@ -22,4 +22,17 @@ body {
 #canvas-container {
     width: 100%;
     text-align: center;
+    position: relative;
+}
+
+#button {
+    bottom: 48%;
+    left: 46%;
+    height: 50px;
+    width: 100px;
+    position: absolute;
+    background-color:deepskyblue ;
+    text-align: center;
+    border: 3px solid red;
+    border-radius: 3px;cursor: pointer; cursor: hand;
 }

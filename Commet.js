@@ -5,13 +5,15 @@
 var WIDTH = 1024;
 var HEIGHT = 640;      // dimensions of the canvas object
 
-function Comet(x, y, s, p, sh) {
+function Comet(x, y, s, p, sh, c) {
     this.position = new Point(x, y);
     this.speed = 1;
     this.direction = s;
     this.radius = 20;
     this.points = p;
     this.shape = sh;
+    this.color = c;
+    this.colors = ["#123456","#654321","#456123"];
 
     this.draw = function () {
         if (this.position.x >= WIDTH)
@@ -53,7 +55,7 @@ function Comet(x, y, s, p, sh) {
 
     this.shape0 = function(x,y)
     {
-        context.fillStyle = "#123456";
+        context.fillStyle = this.colors[this.color];
         context.bezierCurveTo(x,y, x,y-this.radius,x-p[1].x,y-p[1].y);
         context.bezierCurveTo(x,y, x-this.radius,y,x-p[2].x,y+p[2].y);
         context.bezierCurveTo(x,y, x,y+this.radius,x+p[3].x,y+p[3].y);
@@ -62,7 +64,7 @@ function Comet(x, y, s, p, sh) {
 
     this.shape1 = function(x, y)
     {
-        context.fillStyle = "#654321";
+        context.fillStyle = this.colors[this.c];
         context.lineTo(x-p[1].x,y-p[1].y);
         context.lineTo(x-p[2].x,y+p[2].y);
         context.lineTo(x+p[3].x,y+p[3].y);
@@ -71,7 +73,7 @@ function Comet(x, y, s, p, sh) {
 
     this.shape2 = function(x, y)
     {
-        context.fillStyle = "#456123";
+        context.fillStyle = this.colors[this.c];
         context.arcTo(x+p[0].x,y-p[0].y, x-p[1].x, y-p[1].y, 15);
         context.arcTo(x-p[1].x,y-p[1].y, x-p[2].x, y+p[2].y, 15);
         context.arcTo(x-p[2].x,y+p[2].y, x+p[3].x, y+p[3].y, 15);
@@ -92,7 +94,8 @@ Comet.generateComets = function (count) {
             new Point(Math.random() * 10 + 10, Math.random() * 10 + 10)
         ];
         var sh = Math.floor(Math.random() * 3);
-        temp[count] = new Comet(X, Y, s, points, sh);
+        var c = Math.floor(Math.random() * 3);
+        temp[count] = new Comet(X, Y, s, points, sh, c);
     }
     return temp;
 }
