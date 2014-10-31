@@ -18,7 +18,7 @@ function Bullet(x, y, dir) {
         if (!this.isAlive)
             return;
         else {
-            context.fillStyle = "#0000ff";
+            context.fillStyle = "#ffff00";
 
             var x = this.position.x;
             var y = this.position.y;

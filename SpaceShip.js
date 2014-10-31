@@ -9,27 +9,35 @@ function SpaceShip() {
     this.bulletList = new Array();
     this.bulletCount = 0;
     this.radius = 15;
+    this.img = new Image();
+    this.img.src = "ship.png";
 
     this.draw = function () {
         if (!this.isAlive)
             return;
-        context.fillStyle = "#ff0000";
-        context.strokeStyle = "#ff0000"
-        context.lineWidth = 5;
-        context.lineCap = "round";
-
+        //context.fillStyle = "#ff0000";
+        //context.strokeStyle = "#ff0000"
+        //context.lineWidth = 5;
+        //context.lineCap = "round";
+        //
         var x = this.position.x;
         var y = this.position.y;
         var radius = this.radius;
-        var anticlockwise = false;
 
-        context.beginPath();
-        context.arc(x, y, radius, 0, Math.PI * 2, anticlockwise);
-        context.fill();
-        context.moveTo(x, y);
-        context.lineTo(x + Math.sin(this.direction) * GUN_LEN, y + Math.cos(this.direction) * GUN_LEN);
-        context.stroke();
-        context.closePath();
+        //context.beginPath();
+        //context.arc(x, y, radius, 0, Math.PI * 2, false);
+        //context.fill();
+        //context.moveTo(x, y);
+        //context.lineTo(x + Math.sin(this.direction) * GUN_LEN, y + Math.cos(this.direction) * GUN_LEN);
+        //context.stroke();
+        //context.closePath();
+
+        context.save();
+        context.translate(this.position.x,this.position.y);
+        context.rotate(Math.PI - this.direction);
+        context.drawImage(this.img, -24, -24);
+        context.restore();
+
     };
 
     this.speedUp = function () {

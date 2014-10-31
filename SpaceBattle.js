@@ -9,6 +9,7 @@ var ship;
 var comets = new Array();
 var cometCount;
 var score;
+var backGround;
 
 /*
  method to identify keys pressed.
@@ -46,6 +47,11 @@ var init = function () {
     // set canvas width and height to get fine resolution
     canvas.width = WIDTH;
     canvas.height = HEIGHT;
+    var backGround = new Image();
+    backGround.src = "sky.jpg";
+    backGround.onload = function() {
+        //context.drawImage(backGround, 0, 0,1024,640);
+    };
     draw();
     $(document).ready(function() {
         $("#button").click(function(){
@@ -75,6 +81,7 @@ var draw = function () {
     }
     update();
     context.clearRect(0, 0, WIDTH, HEIGHT);
+    //context.drawImage(backGround, 0, 0,1024,640);
     ship.draw();
 
     for (var i = 0; i < ship.bulletCount; i++) {
