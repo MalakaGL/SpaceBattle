@@ -64,7 +64,7 @@ function Comet(x, y, s, p, sh, c) {
 
     this.shape1 = function(x, y)
     {
-        context.fillStyle = this.colors[this.c];
+        context.fillStyle = this.colors[this.color];
         context.lineTo(x-p[1].x,y-p[1].y);
         context.lineTo(x-p[2].x,y+p[2].y);
         context.lineTo(x+p[3].x,y+p[3].y);
@@ -73,7 +73,7 @@ function Comet(x, y, s, p, sh, c) {
 
     this.shape2 = function(x, y)
     {
-        context.fillStyle = this.colors[this.c];
+        context.fillStyle = this.colors[this.color];
         context.arcTo(x+p[0].x,y-p[0].y, x-p[1].x, y-p[1].y, 15);
         context.arcTo(x-p[1].x,y-p[1].y, x-p[2].x, y+p[2].y, 15);
         context.arcTo(x-p[2].x,y+p[2].y, x+p[3].x, y+p[3].y, 15);

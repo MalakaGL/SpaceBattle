@@ -1,15 +1,14 @@
 /**
  * Created by lahiru on 10/28/2014.
  */
-var context;                        // content of the canvas
+var context;                                // content of the canvas
 var WIDTH = 1024;
-var HEIGHT = 640;      // dimensions of the canvas object
+var HEIGHT = 640;                           // dimensions of the canvas object
 var intervalId = null;                     // interval at which the canvas refresh
 var ship;
 var comets = new Array();
 var cometCount;
 var score;
-var started, tries = 0;
 
 /*
  method to identify keys pressed.
@@ -37,7 +36,6 @@ addEventListener("keydown", function (e) {
 }, false);
 
 var init = function () {
-    started = false;
     ship = new SpaceShip();
     cometCount = 15;
     comets = Comet.generateComets(cometCount);
@@ -59,30 +57,23 @@ var init = function () {
 
 var start = function(){
     // call draw function once per 10ms
+    clearInterval(intervalId);
     intervalId = setInterval(draw, 10);
-    started = true;
-    tries++;
 }
 
 var draw = function () {
     if (cometCount === 0 || !ship.isAlive) {
         score = 0;
         clearInterval(intervalId);
-        intervalId = null;
         context.clearRect(0, 0, WIDTH, HEIGHT);
         init();
-        started = false;
-        if(tries === 3) {
-            window.location.reload();
-        }
         $(document).ready(function() {
             $("#button").fadeIn(1000);
             $('strong').remove();
             $('#button').append("<strong>Battle Again</strong>");
         });
     }
-    if(started)
-        update();
+    update();
     context.clearRect(0, 0, WIDTH, HEIGHT);
     ship.draw();
 
